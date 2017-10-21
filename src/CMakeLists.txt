@@ -8,4 +8,4 @@ project(LedToggle)
 set(MSP430_MCU msp430g2553)
 set(MSP430_MCU_FREQ 1000000UL)
 
-msp430_add_executable(main main.c)
+msp430_add_executable_compilation(main main.c)
