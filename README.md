@@ -1,4 +1,5 @@
 # Docker Embedded
+[![Build Status](https://travis-ci.org/spoorcc/docker_embedded.svg?branch=master)](https://travis-ci.org/spoorcc/docker_embedded)
 
 Example of how to use docker for embedded development This example uses CMake
 to compile a simple target for MSP430 in a docker container.
