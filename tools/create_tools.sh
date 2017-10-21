@@ -1,2 +1,6 @@
+#!/usr/bin/env bash
+set -e
 
-docker build -t cmake_msp .
+projectroot="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"/..
+
+docker build -t cmake_msp $projectroot/tools
