@@ -10,3 +10,4 @@ make
 cp *.hex /artifacts
 cp *.elf /artifacts
 cp *.map /artifacts
+cp /src/test.sh /artifacts
