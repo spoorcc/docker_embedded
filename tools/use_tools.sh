@@ -30,7 +30,8 @@ function build() {
 artifactsdir=$(mktemp -d "${TMPDIR:-/tmp/}artifacts.XXXXXXXXXXXX")
 
 
-build cmake-msp430 "${projectroot}/src" "${artifactsdir}" "/src/build.sh"
+build cmake-msp430 ${projectroot}/src/msp430 ${artifactsdir}/msp /src/build.sh
+build cmake-avr    ${projectroot}/src/avr    ${artifactsdir}/avr /src/build.sh
 
 
 
