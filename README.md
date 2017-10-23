@@ -21,8 +21,7 @@ Use the tooling with
 When developing it is nice to build on after every save in your docker container.
 
 * Make sure `inotify` is installed
-* Source `./tools/local_ci.sh` in a terminal window
-* run `local_ci` command
+* run `./tools/local_ci.sh` in a terminal window
 * Each time a file is saved in the `src` directory the docker images will be fired automatically
 
 

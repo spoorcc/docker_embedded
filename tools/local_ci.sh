@@ -10,3 +10,5 @@ while inotifywait -r --exclude='.*(\/bld\/.*|.sw(p|o))' -e modify $basedir/src; 
 done
 
 }
+
+local_ci
