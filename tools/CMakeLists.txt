@@ -1,5 +1,3 @@
-
-# Build a docker image naming it after the directory
 FUNCTION(DOCKER_BUILD)
       set(options)
       set(oneValueArgs DIRECTORY IMAGE)
