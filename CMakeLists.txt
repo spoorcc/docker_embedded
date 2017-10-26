@@ -1,8 +1,10 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8 FATAL_ERROR)
-
 PROJECT(DockerEmbedded)
 
-ADD_SUBDIRECTORY(tools)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8 FATAL_ERROR)
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMakeModules/")
+
+include(Docker)
 
 # Build all the containers during configuration
 FILE(GLOB containers "tools/Containers/*")
