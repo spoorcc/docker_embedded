@@ -1,5 +1,8 @@
 sudo: required
 services:
 - docker
-before_script: tools/create_tools.sh
-script: tools/use_tools.sh
+before_script:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y cmake
+  - cmake -E make_directory bld
+script: cd bld && cmake .. && cmake --build .
