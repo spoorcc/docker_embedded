@@ -15,6 +15,5 @@ RUN wget --quiet -O $GCC_ARM_VERSION.tar.bz2 \
 RUN mkdir -p /opt/$GCC_ARM_VERSION && \
     tar jxf $GCC_ARM_VERSION.tar.bz2 -C /opt/$GCC_ARM_VERSION --strip-components=1 && \
     rm $GCC_ARM_VERSION.tar.bz2
-RUN ls /opt
 ENV PATH="/opt/$GCC_ARM_VERSION/bin:${PATH}"
 RUN arm-none-eabi-gcc --version
