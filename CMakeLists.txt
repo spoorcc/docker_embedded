@@ -8,3 +8,4 @@ include(Docker)
 
 add_subdirectory(avr)
 add_subdirectory(msp430)
+add_subdirectory(stm32)
