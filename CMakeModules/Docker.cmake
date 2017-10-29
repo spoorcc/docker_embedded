@@ -4,6 +4,8 @@ FUNCTION(DOCKER_BUILD)
       set(multiValueArgs)
       cmake_parse_arguments(DOCKER_BUILD "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
 
+      IS_DOCKER_DAEMON_RUNNING()
+
       MESSAGE("-- Building docker image ${DOCKER_BUILD_IMAGE} from ${DOCKER_BUILD_DIRECTORY}")
       IF(EXISTS "${DOCKER_BUILD_DIRECTORY}" AND IS_DIRECTORY "${DOCKER_BUILD_DIRECTORY}")
           IF(EXISTS "${DOCKER_BUILD_DIRECTORY}/Dockerfile")
@@ -41,3 +43,14 @@ MESSAGE(\"-- Done on ${DOCKER_RUN_IMAGE}\")
                         DEPENDS "${DOCKER_RUN_DEPENDS}")
 
 ENDFUNCTION(DOCKER_RUN)
+
+FUNCTION(IS_DOCKER_DAEMON_RUNNING)
+   IF(UNIX)
+       IF(EXISTS "/var/run/docker.pid")
+          FILE(READ "/var/run/docker.pid" DOCKER_DAEMON_PROCESS_ID)
+          MESSAGE("-- Docker daemon is running (Process id: ${DOCKER_DAEMON_PROCESS_ID})")
+       ELSE()
+          MESSAGE(FATAL_ERROR "-- Docker daemon is not running")
+       ENDIF()
+   ENDIF()
+ENDFUNCTION(IS_DOCKER_DAEMON_RUNNING)
