@@ -5,7 +5,7 @@ MAINTAINER Ben Spoor
 
 # Get all the dependencies
 RUN apt-get -qq update && \
-    apt-get -qq install -y wget bzip2
+    apt-get -qq install -y wget bzip2 cmake
 
 # Get ARM toolchain
 RUN wget --quiet -O $GCC_ARM_VERSION.tar.bz2 \
