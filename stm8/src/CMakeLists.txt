@@ -1,9 +1,7 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
-PROJECT(Example stm8)
+cmake_minimum_required(VERSION 2.8)
+project(blinkled C)
 
-SET(CMAKE_TOOLCHAIN_FILE ${CMAKE_MODULE_PATH}/sdcc-generic.cmake)
-SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
-SET(STM8_CHIP STM8S208)
-SET(STM8_StdPeriph_DIR )
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMakeModules/")
+include(sdcc-stm8)
 
-add_executable(stm8 main.c)
+add_executable(blinkled main.c)

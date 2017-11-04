@@ -1,21 +1,5 @@
 #include <stdint.h>
-
-#define PC_ODR    (*(volatile uint8_t *)0x500a)
-#define PC_DDR    (*(volatile uint8_t *)0x500c)
-#define PC_CR1    (*(volatile uint8_t *)0x500d)
-
-#define PE_ODR    (*(volatile uint8_t *)0x5014)
-#define PE_DDR    (*(volatile uint8_t *)0x5016)
-#define PE_CR1    (*(volatile uint8_t *)0x5017)
-
-#define CLK_DIVR    (*(volatile uint8_t *)0x50c0)
-#define CLK_PCKENR2    (*(volatile uint8_t *)0x50c4)
-
-#define TIM1_CR1    (*(volatile uint8_t *)0x52b0)
-#define TIM1_PCNTRH    (*(volatile uint8_t *)0x52bf)
-#define TIM1_PCNTRL    (*(volatile uint8_t *)0x52c0)
-#define TIM1_PSCRH    (*(volatile uint8_t *)0x52c1)
-#define TIM1_PSCRL    (*(volatile uint8_t *)0x52c2)
+#include "stm8s208s.h"
 
 unsigned int clock(void)
 {
@@ -36,20 +20,18 @@ void main(void)
     // Enable timer
     TIM1_CR1 = 0x01;
 
-    // Configure pins
-    PE_DDR = 0x80;
-    PE_CR1 = 0x80;
+    /* Set PB0 as output */
+    PB_DDR |= (GPIO_OUTPUT_MODE<<PIN0);
 
-    PC_DDR = 0x80;
-    PC_CR1 = 0x80;
+    /* Set Push/Pull mode */
+    PB_CR1 |= (0x01<<PIN0);
+
+    /* Set low speed mode */
+    PB_CR2 |= (0x00<<PIN0);
 
     for(;;)
     {
-        PE_ODR &= 0x7f;
         if (clock() % 1000 <= 500)
-            PE_ODR |= 0x80;
-        PC_ODR &= 0x7f;
-        if (clock() % 2000 <= 1000)
-            PC_ODR |= 0x80;
+            PB_ODR ^= (0x01<<PIN0);
     }
 }

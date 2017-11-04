@@ -8,5 +8,5 @@ cmake /src
 make clean
 make
 
-cp /bld/main.elf /artifacts
+cp /bld/blinkled /artifacts
 

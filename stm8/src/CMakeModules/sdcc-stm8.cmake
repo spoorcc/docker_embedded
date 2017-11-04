@@ -18,6 +18,8 @@ if(SER_INDEX EQUAL -1)
     message(FATAL_ERROR "Invalid/unsupported STM8_SERIES: ${STM8_SERIES}")
 endif()
 
+
+
 string(TOLOWER ${STM8_SERIES} STM8_SERIES_LOWER)
 include(sdcc-stm8${STM8_SERIES_LOWER})
 
@@ -27,3 +29,6 @@ function(STM8_SET_TARGET_PROPERTIES TARGET)
     endif()
     STM8_SET_CHIP_DEFINITIONS(${TARGET} ${STM8_CHIP_TYPE})
 endfunction()
+
+
+#TODO: add hex target
