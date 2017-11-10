@@ -17,9 +17,12 @@ void main(void)
     BITRST(PB_CR2, 0); /* Set low speed mode */
     BITSET(PB_CR1, 0); /* Set Push/Pull mode */
 
-    for(;;) {
-        if ((MEMLOC(TIM1_CNTRL)) % 250 <= 125) {
-            BITTOG(PB_ODR, 0);
+    for(;;)
+    {
+        if ((MEMLOC(TIM1_CNTRL)) % 250 < 125) {
+            BITRST(PB_ODR, 0);
+        } else {
+            BITSET(PB_ODR, 0);
         }
     }
 }
