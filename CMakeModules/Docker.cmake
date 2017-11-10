@@ -21,17 +21,31 @@ ENDFUNCTION(DOCKER_BUILD)
 
 FUNCTION(DOCKER_RUN)
       set(options)
-      set(oneValueArgs TARGET IMAGE INPUT OUTPUT)
-      set(multiValueArgs COMMAND DEPENDS)
+      set(oneValueArgs TARGET IMAGE)
+      set(multiValueArgs INPUT OUTPUT COMMAND DEPENDS)
       cmake_parse_arguments(DOCKER_RUN "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
 
       MESSAGE("-- Will create new target ${DOCKER_RUN_TARGET} for running ${DOCKER_RUN_COMMAND} on ${DOCKER_RUN_IMAGE}")
       SET(DOCKER_RUN_CMAKE_SCRIPT "${CMAKE_BINARY_DIR}/${DOCKER_RUN_TARGET}.cmake")
 
+      IF(DOCKER_RUN_INPUT)
+          FOREACH(MAPPING IN ITEMS ${DOCKER_RUN_INPUT})
+              STRING(CONCAT DOCKER_RUN_INPUT_TMP "${DOCKER_RUN_INPUT_TMP}" "-v " ${MAPPING} ":ro ")
+          ENDFOREACH()
+          set(DOCKER_RUN_INPUT ${DOCKER_RUN_INPUT_TMP})
+      ENDIF()
+
+      IF(DOCKER_RUN_OUTPUT})
+          FOREACH(MAPPING IN ITEMS ${DOCKER_RUN_OUTPUT})
+              STRING(CONCAT DOCKER_RUN_OUTPUT_TMP "${DOCKER_RUN_OUTPUT_TMP}" "-v " ${MAPPING} " ")
+          ENDFOREACH()
+          set(DOCKER_RUN_OUTPUT ${DOCKER_RUN_OUTPUT_TMP})
+      ENDIF()
+
       FILE(WRITE ${DOCKER_RUN_CMAKE_SCRIPT}
 "
 MESSAGE(\"-- Starting ${DOCKER_RUN_IMAGE}\")
-EXEC_PROGRAM(docker ARGS \"run --rm -it -v ${DOCKER_RUN_INPUT}:ro -v ${DOCKER_RUN_OUTPUT} ${DOCKER_RUN_IMAGE} ${DOCKER_RUN_COMMAND}\")
+EXEC_PROGRAM(docker ARGS \"run --rm -it ${DOCKER_RUN_INPUT} ${DOCKER_RUN_OUTPUT} ${DOCKER_RUN_IMAGE} ${DOCKER_RUN_COMMAND}\")
 MESSAGE(\"-- Done on ${DOCKER_RUN_IMAGE}\")
 "
       )
