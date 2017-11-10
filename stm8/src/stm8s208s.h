@@ -21,8 +21,8 @@
 #define CLK_PCKENR2   0x50ca
 
 #define TIM1_CR1    0x5250
-#define TIM1_CNTRH  0x52bf
-#define TIM1_CNTRL  0x52c0
+#define TIM1_CNTRH  0x525e
+#define TIM1_CNTRL  0x525f
 #define TIM1_PSCRH  0x5260
 #define TIM1_PSCRL  0x5261
 
