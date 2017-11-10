@@ -15,9 +15,9 @@ DOCKER_RUN(TARGET build-stm8
 DOCKER_RUN(PRIVILEGED TARGET flash-stm8
             IMAGE stm8-flash
             INPUT "${CMAKE_CURRENT_BINARY_DIR}/bld:/artifacts"
-            OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/tmp:/bld"
             VOLUME "/dev/bus/usb:/dev/bus/usb"
-            COMMAND "stm8flash -c stlink -p stm8s208?b -r /bld/data")
+            DEPENDS build-stm8
+            COMMAND "stm8flash -c stlink -p stm8s208?b -w /artifacts/blinkled.ihx")
 
 IF(UNIX)
     MESSAGE("-- Checking STM LINK v1 workaround is present")
