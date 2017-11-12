@@ -20,8 +20,8 @@ FUNCTION(DOCKER_BUILD)
 ENDFUNCTION(DOCKER_BUILD)
 
 FUNCTION(DOCKER_RUN)
-      set(options PRIVILEGED)
-      set(oneValueArgs TARGET IMAGE)
+      set(options PRIVILEGED EXPLICIT)
+      set(oneValueArgs TARGET IMAGE PORT)
       set(multiValueArgs INPUT OUTPUT VOLUME COMMAND DEPENDS)
       cmake_parse_arguments(DOCKER_RUN "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
 
@@ -29,7 +29,11 @@ FUNCTION(DOCKER_RUN)
       SET(DOCKER_RUN_CMAKE_SCRIPT "${CMAKE_BINARY_DIR}/${DOCKER_RUN_TARGET}.cmake")
 
       IF(DOCKER_RUN_PRIVILEGED)
-          set(DOCKER_FLAGS "--privileged")
+          SET(DOCKER_FLAGS "--privileged")
+      ENDIF()
+
+      IF(DOCKER_RUN_PORT)
+          STRING(CONCAT DOCKER_FLAGS "${DOCKER_FLAGS} -p ${DOCKER_RUN_PORT}")
       ENDIF()
 
       IF(DOCKER_RUN_INPUT)
@@ -60,5 +64,11 @@ MESSAGE(\"-- Done on ${DOCKER_RUN_IMAGE}\")
       ADD_CUSTOM_TARGET(${DOCKER_RUN_TARGET} ALL
                         ${CMAKE_COMMAND} -P ${DOCKER_RUN_CMAKE_SCRIPT}
                         DEPENDS "${DOCKER_RUN_DEPENDS}")
+
+      # Only run the target when it is called explicitly
+      IF(DOCKER_RUN_EXPLICIT)
+          SET_TARGET_PROPERTIES(${DOCKER_RUN_TARGET} PROPERTIES EXCLUDE_FROM_ALL 1 EXCLUDE_FROM_DEFAULT_BUILD 1)
+      ENDIF()
+
 
 ENDFUNCTION(DOCKER_RUN)
