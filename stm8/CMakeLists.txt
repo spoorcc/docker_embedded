@@ -13,12 +13,19 @@ DOCKER_RUN(TARGET build-stm8
           COMMAND /src/build.sh)
 
 IF(NOT DEFINED ENV{TRAVIS})
-    DOCKER_RUN(PRIVILEGED TARGET flash-stm8
+    DOCKER_RUN(PRIVILEGED EXPLICIT TARGET flash-stm8
                 IMAGE stm8-flash
                 INPUT "${CMAKE_CURRENT_BINARY_DIR}/bld:/artifacts"
                 VOLUME "/dev/bus/usb:/dev/bus/usb"
                 DEPENDS build-stm8
                 COMMAND "stm8flash -c stlink -p stm8s208?b -w /artifacts/blinkled.ihx")
+
+    DOCKER_RUN(PRIVILEGED EXPLICIT TARGET debug-stm8
+                IMAGE stm8-openocd
+                INPUT "${CMAKE_CURRENT_BINARY_DIR}/bld:/artifacts"
+                VOLUME "/dev/bus/usb:/dev/bus/usb"
+                PORT   "4444:4444"
+                COMMAND "openocd -f interface/stlink-v1.cfg -f target/stm8s.cfg")
 
     IF(UNIX)
         MESSAGE("-- Checking STM LINK v1 workaround is present")
