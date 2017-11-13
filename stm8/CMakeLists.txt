@@ -6,3 +6,4 @@ FOREACH(container ${containers})
 ENDFOREACH()
 
 add_subdirectory(led)
+add_subdirectory(vga)
